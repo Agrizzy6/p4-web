@@ -17,40 +17,93 @@ class List {
 public:
 
   //EFFECTS:  returns true if the list is empty
-  bool empty() const;
+  bool empty() const
+  {
+    if (list_size == 0)
+    {
+      return true;
+    }
+    return false;
+  }
 
   //EFFECTS: returns the number of elements in this List
   //HINT:    Traversing a list is really slow.  Instead, keep track of the size
   //         with a private member variable.  That's how std::list does it.
-  int size() const;
+  int size() const
+  {
+    return list_size;
+  }
 
   //REQUIRES: list is not empty
   //EFFECTS: Returns the first element in the list by reference
-  T & front();
+  T & front()
+  {
+    assert(!empty());
+    return first->datum;
+  }
 
   //REQUIRES: list is not empty
   //EFFECTS: Returns the last element in the list by reference
-  T & back();
+  T & back()
+  {
+    assert(!empty());
+    return last->datum;
+  }
 
   //EFFECTS:  inserts datum into the front of the list
-  void push_front(const T &datum);
+  void push_front(const T &datum)
+  {
+    Node *newNode = new Node;
+    newNode->datum = datum;
+    newNode->next = first;
+    first = newNode;
+    list_size++;
+
+  }
 
   //EFFECTS:  inserts datum into the back of the list
-  void push_back(const T &datum);
+  void push_back(const T &datum)
+  {
+    Node *newNode = new Node;
+    newNode->datum = datum;
+    newNode->prev = last;
+    last = newNode;
+    list_size++;
+  }
 
   //REQUIRES: list is not empty
   //MODIFIES: may invalidate list iterators
   //EFFECTS:  removes the item at the front of the list
-  void pop_front();
+  void pop_front()
+  {
+    assert(!empty());
+    Node *tempFirst = first->next;
+    delete first;
+    first = tempFirst;
+    list_size--;
+  }
 
   //REQUIRES: list is not empty
   //MODIFIES: may invalidate list iterators
   //EFFECTS:  removes the item at the back of the list
-  void pop_back();
+  void pop_back()
+  {
+    assert(!empty());
+    Node *tempLast = last->prev;
+    delete last;
+    last = tempLast;
+    list_size--;
+  }
 
   //MODIFIES: may invalidate list iterators
   //EFFECTS:  removes all items from the list
-  void clear();
+  void clear()
+  {
+    for (int i = 0; i < list_size; ++i)
+    {
+      pop_front();
+    }
+  }
 
   // You should add in a default constructor, destructor, copy constructor,
   // and overloaded assignment operator, if appropriate. If these operations
@@ -64,6 +117,7 @@ private:
     Node *prev;
     T datum;
   };
+  int list_size = 0;
 
   //REQUIRES: list is empty
   //EFFECTS:  copies all nodes from other to this
