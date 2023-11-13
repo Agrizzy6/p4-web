@@ -5,14 +5,22 @@
  * doubly-linked, double-ended list with Iterator interface
  * EECS 280 Project 4
  */
+
 #include <iostream>
 #include <cassert> //assert
 #include <cstddef> //NULL
+
+
 template <typename T>
 class List {
   //OVERVIEW: a doubly-linked, double-ended list with Iterator interface
 public:
 
+  List()
+  {
+    first = nullptr;
+    last = nullptr;
+  }
   //EFFECTS:  returns true if the list is empty
   bool empty() const
   {
@@ -53,6 +61,12 @@ public:
     Node *newNode = new Node;
     newNode->datum = datum;
     newNode->next = first;
+    newNode->prev = nullptr;
+    if (empty())
+    {
+      last=newNode;
+      newNode->next = nullptr;
+    }
     first = newNode;
     list_size++;
 
@@ -63,7 +77,14 @@ public:
   {
     Node *newNode = new Node;
     newNode->datum = datum;
+    newNode->next = nullptr;
     newNode->prev = last;
+    if (empty())
+    {
+      first=newNode;
+      newNode->prev = nullptr;
+    }
+    //last->next = newNode;
     last = newNode;
     list_size++;
   }
@@ -74,9 +95,15 @@ public:
   void pop_front()
   {
     assert(!empty());
-    Node *tempFirst = first->next;
-    delete first;
-    first = tempFirst;
+    Node *deleted = first;
+    first = first->next;
+    delete deleted;
+    if (empty())
+    {
+      first = nullptr;
+      last = nullptr;
+    }
+   
     list_size--;
   }
 
@@ -89,6 +116,15 @@ public:
     Node *tempLast = last->prev;
     delete last;
     last = tempLast;
+    if (empty())
+    {
+      first = nullptr;
+      last = nullptr;
+    }
+    else
+    {
+      last = tempLast;
+    }
     list_size--;
   }
 
@@ -106,6 +142,7 @@ public:
   // and overloaded assignment operator, if appropriate. If these operations
   // will work correctly without defining these, you can omit them. A user
   // of the class must be able to create, copy, assign, and destroy Lists
+
 private:
   //a private type
   struct Node {
@@ -118,8 +155,11 @@ private:
   //REQUIRES: list is empty
   //EFFECTS:  copies all nodes from other to this
   void copy_all(const List<T> &other);
+
   Node *first;   // points to first Node in list, or nullptr if list is empty
   Node *last;    // points to last Node in list, or nullptr if list is empty
+  friend class Iterator;
+
 public:
   ////////////////////////////////////////
   class Iterator {
@@ -170,10 +210,10 @@ public:
       }
     }
     
-
+    
     Iterator()
     : node_ptr(this->first){}
-
+  
 
   private:
     Node *node_ptr; //current Iterator position is a List node
@@ -190,11 +230,15 @@ public:
     return Iterator(first);
   }
   // return an Iterator pointing to "past the end"
-  Iterator end() const;
+  Iterator end() const{
+    return Iterator(last);
+  }
   //REQUIRES: i is a valid, dereferenceable iterator associated with this list
   //MODIFIES: may invalidate other list iterators
   //EFFECTS: Removes a single element from the list container
-  void erase(Iterator i);
+  void erase(Iterator i){
+    
+  }
   //REQUIRES: i is a valid iterator associated with this list
   //EFFECTS: inserts datum before the element at the specified position.
   void insert(Iterator i, const T &datum);
