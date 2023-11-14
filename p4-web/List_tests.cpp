@@ -141,6 +141,67 @@ TEST(test_back) {
 }
 
 
+
+//Test iterator
+TEST(test_iterator_minus)
+{
+    List<int> list;
+    list.push_back(1);
+    list.push_back(2);
+    list.push_back(3);
+
+    List<int>::Iterator itBegin = list.begin();
+    List<int>::Iterator itEnd = list.end();
+    --itEnd;
+    --itEnd;
+    ASSERT_EQUAL(itBegin, itEnd);
+    ASSERT_EQUAL(itEnd, itBegin);
+}
+
+TEST(test_iterator_add)
+{
+    List<int> list;
+    list.push_back(1);
+    list.push_back(2);
+    list.push_back(3);
+
+    List<int>::Iterator itBegin = list.begin();
+    List<int>::Iterator itEnd = list.end();
+    ++itBegin;
+    ++itBegin;
+    ASSERT_EQUAL(itBegin, itEnd);
+    ASSERT_EQUAL(itEnd, itBegin);
+}
+
+
+TEST(test_iterator_minus_inequality)
+{
+    List<int> list;
+    list.push_back(1);
+    list.push_back(2);
+    list.push_back(3);
+
+    List<int>::Iterator itBegin = list.begin();
+    List<int>::Iterator itEnd = list.end();
+    --itEnd;
+    ASSERT_NOT_EQUAL(itBegin, itEnd);
+    ASSERT_NOT_EQUAL(itEnd, itBegin);
+}
+
+TEST(test_iterator_add_inequality)
+{
+    List<int> list;
+    list.push_back(1);
+    list.push_back(2);
+    list.push_back(3);
+
+    List<int>::Iterator itBegin = list.begin();
+    List<int>::Iterator itEnd = list.end();
+    ++itBegin;
+    ASSERT_NOT_EQUAL(itBegin, itEnd);
+    ASSERT_NOT_EQUAL(itEnd, itBegin);
+}
+
 TEST(test_stub) {
     // Add test code here
     ASSERT_TRUE(true);

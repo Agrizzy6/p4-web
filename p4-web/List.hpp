@@ -212,7 +212,7 @@ public:
 
     bool operator==(Iterator rhs) const{
       assert(node_ptr);
-      if(*this->node_ptr == *rhs->node_ptr){
+      if(node_ptr == rhs.node_ptr){
         return true;
       }
       else{
@@ -222,26 +222,28 @@ public:
 
     bool operator!=(Iterator rhs) const{
       assert(node_ptr);
-      if(*this->node_ptr == *rhs->node_ptr){
-        return false;
+      if(node_ptr != rhs.node_ptr){
+        return true;
       }
       else{
-        return true;
+        return false;
       }
     }
     
     
     Iterator()
     : node_ptr(this->first){}
-  
+
+    Iterator(Node *p) 
+    : node_ptr(p){}
 
   private:
     Node *node_ptr; //current Iterator position is a List node
     // add any additional necessary member variables here
     // add any friend declarations here
     // construct an Iterator at a specific position
-    Iterator(Node *p) 
-    : node_ptr(p){}
+ 
+   
 
   };//List::Iterator
   ////////////////////////////////////////
@@ -257,11 +259,18 @@ public:
   //MODIFIES: may invalidate other list iterators
   //EFFECTS: Removes a single element from the list container
   void erase(Iterator i){
+    return;
     
   }
   //REQUIRES: i is a valid iterator associated with this list
   //EFFECTS: inserts datum before the element at the specified position.
-  void insert(Iterator i, const T &datum);
+  void insert(Iterator i, const T &datum)
+  {
+    return;
+  }
+
+
+
 };//List
 ////////////////////////////////////////////////////////////////////////////////
 // Add your member function implementations below or in the class above
