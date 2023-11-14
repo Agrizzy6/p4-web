@@ -21,6 +21,10 @@ public:
     first = nullptr;
     last = nullptr;
   }
+  List (List<T> &copy)
+  {
+    copy_all(copy);
+  }
   ~List()
   {
     clear();
@@ -149,6 +153,7 @@ public:
     }
   }
 
+
   // You should add in a default constructor, destructor, copy constructor,
   // and overloaded assignment operator, if appropriate. If these operations
   // will work correctly without defining these, you can omit them. A user
@@ -161,24 +166,28 @@ private:
     Node *prev;
     T datum;
   };
+  
   int list_size = 0;
+  friend class Iterator;
 
   //REQUIRES: list is empty
   //EFFECTS:  copies all nodes from other to this
   void copy_all(const List<T> &other)
   {
-    /*
     assert(this->empty());
-    for (int i = 0; i < this->size; ++i)
+    Iterator itBegin = other.begin();
+    for (int i = 0; i < other.list_size; ++i)
     {
-      other.push_front()
+      int datum = itBegin.get_node()->datum;
+      push_back(datum);
+      ++itBegin;
     }
-    */
+    
   }
 
   Node *first;   // points to first Node in list, or nullptr if list is empty
   Node *last;    // points to last Node in list, or nullptr if list is empty
-  friend class Iterator;
+  
 
 public:
   ////////////////////////////////////////
@@ -236,6 +245,11 @@ public:
 
     Iterator(Node *p) 
     : node_ptr(p){}
+
+    Node* get_node()
+    {
+      return node_ptr;
+    }
 
   private:
     Node *node_ptr; //current Iterator position is a List node

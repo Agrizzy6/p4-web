@@ -202,6 +202,24 @@ TEST(test_iterator_add_inequality)
     ASSERT_NOT_EQUAL(itEnd, itBegin);
 }
 
+TEST(test_copy_all) {
+    List<int> list;
+    list.push_back(1);
+    list.push_back(2);
+    list.push_back(3);
+    list.push_front(4);
+    list.push_front(5);
+    list.push_front(6);
+
+    ASSERT_EQUAL(list.size(),6);
+
+    List<int> newList = List(list);
+    ASSERT_EQUAL(newList.size(),6);
+    ASSERT_EQUAL(newList.front(),6);
+    ASSERT_EQUAL(newList.back(),3); 
+}
+
+
 TEST(test_stub) {
     // Add test code here
     ASSERT_TRUE(true);
