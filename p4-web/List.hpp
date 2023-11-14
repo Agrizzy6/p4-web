@@ -178,7 +178,7 @@ private:
     Iterator itBegin = other.begin();
     for (int i = 0; i < other.list_size; ++i)
     {
-      int datum = itBegin.get_node()->datum;
+      int datum = *itBegin;
       push_back(datum);
       ++itBegin;
     }

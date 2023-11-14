@@ -173,6 +173,19 @@ TEST(test_iterator_add)
     ASSERT_EQUAL(itEnd, itBegin);
 }
 
+TEST(test_iterator_pointer)
+{
+    List<int> list;
+    list.push_back(1);
+    list.push_back(2);
+    list.push_back(3);
+
+    List<int>::Iterator itBegin = list.begin();
+
+    ASSERT_EQUAL(*itBegin, 1);
+    ++itBegin;
+    ASSERT_EQUAL(*itBegin, 2);
+}
 
 TEST(test_iterator_minus_inequality)
 {
