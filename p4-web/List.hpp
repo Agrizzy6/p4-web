@@ -21,6 +21,10 @@ public:
     first = nullptr;
     last = nullptr;
   }
+  ~List()
+  {
+    clear();
+  }
   //EFFECTS:  returns true if the list is empty
   bool empty() const
   {
@@ -65,7 +69,10 @@ public:
     if (empty())
     {
       last=newNode;
-      newNode->next = nullptr;
+    }
+    else
+    {
+      first->prev = newNode;
     }
     first = newNode;
     list_size++;
@@ -82,9 +89,12 @@ public:
     if (empty())
     {
       first=newNode;
-      newNode->prev = nullptr;
     }
-    //last->next = newNode;
+    else
+    {
+      last->next = newNode;
+    }
+
     last = newNode;
     list_size++;
   }
@@ -132,9 +142,10 @@ public:
   //EFFECTS:  removes all items from the list
   void clear()
   {
-    for (int i = 0; i < list_size; ++i)
+    int initialSize = list_size;
+    for (int i = 0; i < initialSize; ++i)
     {
-      pop_front();
+      pop_back();
     }
   }
 
@@ -154,7 +165,16 @@ private:
 
   //REQUIRES: list is empty
   //EFFECTS:  copies all nodes from other to this
-  void copy_all(const List<T> &other);
+  void copy_all(const List<T> &other)
+  {
+    /*
+    assert(this->empty());
+    for (int i = 0; i < this->size; ++i)
+    {
+      other.push_front()
+    }
+    */
+  }
 
   Node *first;   // points to first Node in list, or nullptr if list is empty
   Node *last;    // points to last Node in list, or nullptr if list is empty
